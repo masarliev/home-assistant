@@ -33,12 +33,11 @@ def async_setup_scanner(hass, config, async_see, discovery_info=None):
     """Set up the scanner and return the update function."""
     devices = _get_devices(config)
     interval = config.get(CONF_SCAN_INTERVAL)
-    _LOGGER.debug('{} devices found'.format(len(devices)))
+    _LOGGER.debug('%d devices found.' % len(devices))
 
     @callback
     def see_device(device: dict):
-        _LOGGER.debug('Getting information abount device {}'.format(
-            device.get('id')))
+        _LOGGER.debug('Getting information for device %s' % device.get('id'))
         try:
             response = requests.get(
                 'https://my.myki.watch/api/watch/app-data',
@@ -53,12 +52,11 @@ def async_setup_scanner(hass, config, async_see, discovery_info=None):
             _LOGGER.error("No response for %s failed=%d",
                           device.get('id'), response.status_code)
             return False
-        _LOGGER.debug('Information received for {}'.format(device.get('id')))
+        _LOGGER.debug('Information received for %s' % device.get('id'))
         data = json.loads(response.content.decode('utf-8'))
         info = data.get('data', {}).get('current')
         if not info:
-            _LOGGER.error('Missing info in response for device {}'.format(
-                device.get('id')))
+            _LOGGER.error('Missing info for device %s' % device.get('id'))
             return False
 
         gps_location = (info['position']['latitude'],
@@ -70,8 +68,8 @@ def async_setup_scanner(hass, config, async_see, discovery_info=None):
         hass.async_add_job(async_see(
             dev_id=device.get('id'), gps=gps_location,
             battery=info.get('battery'),
-            gps_accuracy=info.get('position').get('accuracy'))
-        )
+            gps_accuracy=info.get('position').get('accuracy')
+        ))
 
     @asyncio.coroutine
     def update(now):
