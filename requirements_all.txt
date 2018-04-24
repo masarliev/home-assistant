@@ -1374,3 +1374,6 @@ zigpy-xbee==0.0.2
 
 # homeassistant.components.zha
 zigpy==0.0.3
+
+# homeassistant.components.sensor.domain_expiry
+python-whois==0.6.9
