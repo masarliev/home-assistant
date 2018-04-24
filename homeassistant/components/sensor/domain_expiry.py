@@ -5,8 +5,6 @@ For more details about this sensor please refer to the documentation at
 https://home-assistant.io/components/sensor.domain_expiry/
 """
 import logging
-import socket
-import ssl
 from datetime import datetime, timedelta
 
 import voluptuous as vol
@@ -46,12 +44,11 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         add_devices([DomainExpiry(sensor_name, server_name)],
                     True)
 
-    # To allow checking of the HA certificate we must first be running.
     hass.bus.listen_once(EVENT_HOMEASSISTANT_START, run_setup)
 
 
 class DomainExpiry(Entity):
-    """Implementation of the certificate expiry sensor."""
+    """Implementation of the domain expiry sensor."""
 
     def __init__(self, sensor_name, server_name):
         """Initialize the sensor."""
