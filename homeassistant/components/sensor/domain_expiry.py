@@ -15,7 +15,7 @@ from homeassistant.const import (CONF_NAME, CONF_HOST,
                                  EVENT_HOMEASSISTANT_START)
 from homeassistant.helpers.entity import Entity
 
-REQUIREMENTS = ['python-whois==0.6.9',]
+REQUIREMENTS = ['python-whois==0.6.9']
 
 _LOGGER = logging.getLogger(__name__)
 
